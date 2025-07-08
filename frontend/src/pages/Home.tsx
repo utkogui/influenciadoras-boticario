@@ -38,7 +38,7 @@ const Home = () => {
       if (searchTerm) params.append('search', searchTerm)
       if (selectedTag) params.append('tag', selectedTag)
       
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/influencers?${params}`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || ''}/api/influencers?${params}`)
       setInfluencers(response.data)
     } catch (error) {
       toast.error('Erro ao carregar influenciadoras')
@@ -49,7 +49,7 @@ const Home = () => {
 
   const fetchTags = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/tags`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || ''}/api/tags`)
       setTags(response.data)
     } catch (error) {
       toast.error('Erro ao carregar tags')

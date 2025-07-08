@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres:13-alpine
+    container_name: boticario_db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: boticario
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - boticario-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root -d boticario"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: boticario_backend
+    ports:
+      - "3001:3001"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://root:root@db:5432/boticario
+      - PORT=3001
+    networks:
+      - boticario-network
+    command: sh -c "npx prisma migrate deploy && npm run start"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:3001
+    container_name: boticario_frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - boticario-network
+
+networks:
+  boticario-network:
+    driver: bridge
+
+volumes:
+  postgres_data: 

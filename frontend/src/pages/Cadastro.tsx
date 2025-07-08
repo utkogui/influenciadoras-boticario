@@ -40,7 +40,7 @@ const Cadastro = () => {
 
   const fetchTags = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/tags`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || ''}/api/tags`)
       setTags(response.data)
     } catch (error) {
       toast.error('Erro ao carregar tags')
@@ -55,7 +55,7 @@ const Cadastro = () => {
 
     setSearching(true)
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/influencers/search-instagram`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || ''}/api/influencers/search-instagram`, {
         username: username.replace('@', '')
       })
       
@@ -77,7 +77,7 @@ const Cadastro = () => {
 
     setLoading(true)
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/influencers`, {
+      await axios.post(`${import.meta.env.VITE_API_URL || ''}/api/influencers`, {
         username: data.username,
         tags: selectedTags
       })

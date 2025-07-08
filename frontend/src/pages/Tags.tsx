@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Plus, Edit, Trash2, Tag, Palette } from 'lucide-react'
+import { Plus, Edit, Trash2, Tag } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import toast from 'react-hot-toast'
@@ -33,7 +33,7 @@ const Tags = () => {
 
   const fetchTags = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/tags`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || ''}/api/tags`)
       setTags(response.data)
     } catch (error) {
       toast.error('Erro ao carregar tags')

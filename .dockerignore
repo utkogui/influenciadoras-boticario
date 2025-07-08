@@ -1,0 +1,23 @@
+# Git
+.git
+.gitignore
+
+# Node
+node_modules
+npm-debug.log
+.npm
+
+# Docker
+Dockerfile
+
+# Build artifacts
+dist
+build
+
+# Env files
+.env
+*.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
