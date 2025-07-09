@@ -30,8 +30,8 @@ Sistema para gerenciamento de base de dados de influenciadoras com representativ
 
 ### Pré-requisitos
 - Node.js 18+
-- PostgreSQL
-- npm ou yarn
+- Docker e Docker Compose
+- Git
 
 ### 1. Clone o repositório
 ```bash
@@ -41,38 +41,141 @@ cd influenciadoras_local
 
 ### 2. Instale as dependências
 ```bash
-npm run install:all
-```
-
-### 3. Configure o banco de dados
-```bash
-# Copie o arquivo de exemplo
-cp backend/env.example backend/.env
-
-# Edite as variáveis de ambiente
-# DATABASE_URL="postgresql://username:password@localhost:5432/influenciadoras_db"
-```
-
-### 4. Configure o banco PostgreSQL
-```bash
-# Crie o banco de dados
-createdb influenciadoras_db
-
-# Execute as migrações
+# Instalar dependências do backend
 cd backend
-npm run db:push
+npm install
+
+# Instalar dependências do frontend
+cd ../frontend
+npm install
+
+# Voltar para a raiz
+cd ..
 ```
 
-### 5. Inicie o desenvolvimento
+## 🚀 Como Rodar o Projeto
+
+### **Opção 1: Docker Compose (Recomendado - Mais Fácil)**
+
 ```bash
-# Terminal 1 - Backend
+# Na raiz do projeto
+docker-compose up -d
+```
+
+**URLs:**
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3001
+- Banco: localhost:5432
+
+### **Opção 2: Desenvolvimento Local**
+
+```bash
+# 1. Iniciar apenas o banco de dados
+docker-compose up -d db
+
+# 2. Configurar o banco (em outro terminal)
 cd backend
+npx prisma migrate deploy
+npx prisma generate
+
+# 3. Iniciar o backend
 npm run dev
 
-# Terminal 2 - Frontend
+# 4. Iniciar o frontend (em outro terminal)
 cd frontend
 npm run dev
 ```
+
+### **Opção 3: Produção (Fly.io)**
+
+```bash
+# Deploy para produção
+fly deploy
+
+# Verificar status
+fly status
+
+# Ver logs
+fly logs
+```
+
+## 🔧 Comandos Úteis
+
+### **Desenvolvimento Local**
+```bash
+# Parar todos os serviços
+docker-compose down
+
+# Rebuild dos containers
+docker-compose up -d --build
+
+# Ver logs
+docker-compose logs -f
+
+# Acessar banco de dados
+docker-compose exec db psql -U root -d boticario
+```
+
+### **Backend**
+```bash
+cd backend
+
+# Desenvolvimento
+npm run dev
+
+# Build
+npm run build
+
+# Banco de dados
+npx prisma migrate deploy
+npx prisma generate
+npx prisma studio
+```
+
+### **Frontend**
+```bash
+cd frontend
+
+# Desenvolvimento
+npm run dev
+
+# Build
+npm run build
+```
+
+### **Testar APIs**
+```bash
+# Listar influencers
+curl http://localhost:3001/api/influencers
+
+# Listar tags
+curl http://localhost:3001/api/tags
+
+# Buscar dados do Instagram
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"username":"marimaria"}' \
+  http://localhost:3001/api/influencers/search-instagram
+```
+
+### **Produção (Fly.io)**
+```bash
+# Status das máquinas
+fly status
+
+# Logs da aplicação
+fly logs
+
+# Reiniciar máquinas
+fly machines restart 683dd93c433978 d8d9936c97de98
+
+# Acessar shell da máquina
+fly ssh console --machine 683dd93c433978
+```
+
+## 🌐 URLs da Aplicação
+
+- **Local**: http://localhost:5173
+- **Produção**: https://influenciadoras-local-blue-sunset-3904.fly.dev/
 
 ## 🎨 Paleta de Cores
 
