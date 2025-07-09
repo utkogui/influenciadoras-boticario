@@ -300,8 +300,9 @@ router.post('/search-instagram', async (req, res) => {
     const instagramData = await fetchInstagramData(username);
     
     res.json(instagramData);
-  } catch (error) {
-    res.status(500).json({ error: 'Erro ao buscar dados do Instagram' });
+  } catch (error: any) {
+    console.error('Erro no endpoint /search-instagram:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados do Instagram', details: error?.message || error });
   }
 });
 
