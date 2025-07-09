@@ -43,7 +43,7 @@ async function fetchInstagramData(username: string) {
     
     console.log(`Buscando dados do Instagram para: ${cleanUsername}`);
     
-    const response = await axios.get(`https://www.instagram.com/${cleanUsername}/?__a=1&__d=1`, {
+    const response = await axios.get(`https://www.instagram.com/${cleanUsername}/?__a=1const response = await axios.get(`https://www.instagram.com/api/v1/users/web_profile_info/?username=${cleanUsername}`, {__d=1`, {
       headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -51,7 +51,12 @@ async function fetchInstagramData(username: string) {
         "Accept-Encoding": "gzip, deflate, br",
         "DNT": "1",
         "Connection": "keep-alive",
-        "Upgrade-Insecure-Requests": "1"
+        "Upgrade-Insecure-Requests": "1",
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept': '*/*',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'X-IG-App-ID': '936619743392459'
       }
     });
 
@@ -91,47 +96,8 @@ async function fetchInstagramData(username: string) {
       throw new Error('Perfil não encontrado');
     }
 
-    // Dados mockados realistas baseados em perfis conhecidos
-    const mockData: { [key: string]: any } = {
-      "marimaria": {
-        fullName: "Mari Maria",
-        profilePic: "https://instagram.fbfh23-1.fna.fbcdn.net/v/t51.2885-19/499882859_18517038829063592_2049782773428799746_n.jpg",
-        bio: "✨Beauty and Makeup✨\n🌟 Founder @marimariamakeup & @marimariahair\n🧡 YT www.youtube.com/MariMaria",
-        followers: 21921591
-      },
-      "bianca": {
-        fullName: "BIANCA BOCA ROSA",
-        profilePic: "https://instagram.fbfh23-1.fna.fbcdn.net/v/t51.2885-19/503612411_18529743355037643_3423264034589024763_n.jpg",
-        bio: "COMPRE O STICK COR👇",
-        followers: 19464929
-      },
-      "brunatavares": {
-        fullName: "Bruna Bonaldi Tavares - A Bruna de BT 💙",
-        profilePic: "https://instagram.fbfh23-1.fna.fbcdn.net/v/t51.2885-19/505166717_18511994143059211_8350178056629901334_n.jpg",
-        bio: "💄Founder e CEO Bruna Tavares\n🏆Forbes 15 mulheres mais poderosas 2025\n🏆Lista 500 + influentes da América Latina\n💙 BT 👇",
-        followers: 3713604
-      },
-      "marivmedeiros": {
-        fullName: "Mari Medeiros Utko",
-        profilePic: "https://instagram.fbfh23-1.fna.fbcdn.net/v/t51.2885-19/182045419_985913965569154_5686743740812824545_n.jpg",
-        bio: "Fotos de plantas e o que mais meu olhar encontrar e registrar.\n@bemmimosa\n@indicefeminino",
-        followers: 739
-      }
-    };
-
-    const cleanUsername = username.replace("@", "").toLowerCase();
-    const mockUser = mockData[cleanUsername];
-
-    if (mockUser) {
-      console.log('Usando dados mockados realistas como fallback');
-      return {
-        ...mockUser,
-        profilePic: `/api/proxy-image?url=${encodeURIComponent(mockUser.profilePic)}`
-      };
-    }
-
-    // Fallback genérico para perfis não conhecidos
-    console.log('Usando dados mockados genéricos como fallback');
+    // Fallback para dados mockados em caso de erro
+    console.log('Usando dados mockados como fallback');
     return {
       fullName: `@${username.replace('@', '')}`,
       profilePic: `https://via.placeholder.com/150/6366f1/ffffff?text=${username.charAt(0).toUpperCase()}`,

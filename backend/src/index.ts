@@ -12,7 +12,7 @@ dotenv.config();
 
 const app = express();
 const prisma = new PrismaClient();
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 
 // Rate limiting
 const limiter = rateLimit({
@@ -23,9 +23,14 @@ const limiter = rateLimit({
 // Middleware
 app.use(helmet());
 app.use(cors());
-app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Trust proxy (necessário para rate limiting com proxy)
+app.set('trust proxy', 1);
+
+// Rate limiting (após trust proxy)
+app.use(limiter);
 
 // Routes
 app.use('/api/influencers', influencerRoutes);
@@ -48,7 +53,7 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Rota não encontrada' });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
 

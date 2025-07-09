@@ -31,5 +31,7 @@
   
   .profile-pic {
     @apply w-16 h-16 rounded-full object-cover border-2 border-gray-200 shadow-sm;
+    min-width: 64px;
+    min-height: 64px;
   }
 } 

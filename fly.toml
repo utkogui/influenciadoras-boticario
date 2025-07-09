@@ -1,20 +1,23 @@
-# fly.toml app configuration file generated for influenciadoras-local-dawn-leaf-7836 on 2025-07-08T16:39:19-03:00
+# fly.toml app configuration file generated for influenciadoras-local-blue-sunset-3904 on 2025-07-08T21:06:22-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'influenciadoras-local-dawn-leaf-7836'
-primary_region = 'gru'
+app = 'influenciadoras-local-blue-sunset-3904'
+primary_region = 'gig'
 
 [build]
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = 'stop'
+  auto_stop_machines = false
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ['app']
+
+# [deploy]
+#   release_command = "sh -c 'cd /app/backend && npx prisma migrate deploy'"
 
 [[vm]]
   memory = '1gb'

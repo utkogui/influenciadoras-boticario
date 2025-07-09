@@ -9,26 +9,26 @@ datasource db {
 }
 
 model Influencer {
-  id          String   @id @default(cuid())
-  username    String   @unique
-  fullName    String
-  profilePic  String?
-  bio         String?
-  followers   Int      @default(0)
-  tags        Tag[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(cuid())
+  username   String   @unique
+  fullName   String
+  profilePic String?
+  bio        String?
+  followers  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  tags       Tag[]    @relation("InfluencerToTag")
 
   @@map("influencers")
 }
 
 model Tag {
-  id          String      @id @default(cuid())
-  name        String      @unique
-  color       String      @default("#6366f1")
-  influencers Influencer[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id          String       @id @default(cuid())
+  name        String       @unique
+  color       String       @default("#6366f1")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  influencers Influencer[] @relation("InfluencerToTag")
 
   @@map("tags")
 }

@@ -10,12 +10,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <App />
       <Toaster 
-        position="top-right"
+        position="top-center"
         toastOptions={{
           duration: 4000,
           style: {
             background: '#363636',
             color: '#fff',
+            borderRadius: '8px',
+            padding: '12px 16px',
           },
         }}
       />

@@ -45,10 +45,10 @@ const Tags = () => {
   const onSubmit = async (data: FormData) => {
     try {
       if (editingTag) {
-        await axios.put(`/api/tags/${editingTag.id}`, data)
+        await axios.put(`${import.meta.env.VITE_API_URL || ''}/api/tags/${editingTag.id}`, data)
         toast.success('Tag atualizada com sucesso!')
       } else {
-        await axios.post('/api/tags', data)
+        await axios.post(`${import.meta.env.VITE_API_URL || ''}/api/tags`, data)
         toast.success('Tag criada com sucesso!')
       }
       
@@ -72,7 +72,7 @@ const Tags = () => {
     if (!confirm('Tem certeza que deseja deletar esta tag?')) return
 
     try {
-      await axios.delete(`/api/tags/${tagId}`)
+      await axios.delete(`${import.meta.env.VITE_API_URL || ''}/api/tags/${tagId}`)
       toast.success('Tag deletada com sucesso!')
       fetchTags()
     } catch (error: any) {
